@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 
+require('./babel-register.js');
+
 const path = require('path');
 const Mocha = require('mocha');
 const glob = require('glob');
