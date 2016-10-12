@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 "use strict";
 
-require('./babel-register.js');
+require("./babel-register.js");
 
-const path = require('path');
-const Mocha = require('mocha');
-const glob = require('glob');
+const path = require("path");
+const Mocha = require("mocha");
+const glob = require("glob");
 
 const testGrep = process.env.npm_config_TEST_GREP;
 const testPackage = process.env.npm_config_TEST_ONLY;
@@ -21,8 +21,8 @@ function getTestFiles() {
 
 function runTests() {
   testGrep && mocha.grep(testGrep);
-  mocha.ui('tdd').reporter('dot').timeout(10000).run(function(failures) {
-    process.on('exit', function() {
+  mocha.ui("tdd").reporter("dot").timeout(10000).run(function(failures) {
+    process.on("exit", function() {
       process.exit(failures);
     });
   });

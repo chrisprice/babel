@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 const child  = require("child_process");
 
 const thisBase = path.join(__dirname, "..");
@@ -18,7 +18,7 @@ catch (e) {
 }
 
 const browserifyCommand = `${path.join(thisBase, "lib", "index.js")} \
-  --insert-global-vars 'global' \
+  --insert-global-vars "global" \
   --plugin bundle-collapser/plugin \
   --plugin derequire/plugin \
   > ${polyfillFile}`;
