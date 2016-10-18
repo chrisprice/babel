@@ -39,19 +39,19 @@ contributing, please read our [code of conduct](https://github.com/babel/babel/b
 ```sh
 $ git clone https://github.com/babel/babel
 $ cd babel
-$ make bootstrap
+$ npm run bootstrap
 ```
 
 Then you can either run:
 
 ```sh
-$ make build
+$ npm run build
 ```
 
 to build Babel **once** or:
 
 ```sh
-$ make watch
+$ npm run watch
 ```
 
 to have Babel build itself and incrementally build files on change.
@@ -61,7 +61,7 @@ You can access the built files for individual packages from `packages/<package-n
 If you wish to build a copy of Babel for distribution, then run:
 
 ```sh
-$ make build-dist
+$ npm run build-dist
 ```
 
 #### Running tests
@@ -69,25 +69,25 @@ $ make build-dist
 You can run tests for all packages via:
 
 ```sh
-$ make test
+$ npm test
 ```
 
-To run tests for a specific package, you can use the `TEST_ONLY` environment variable:
+To run tests for a specific package, you can use the `TEST_ONLY` parameter:
 
 ```sh
-$ TEST_ONLY=babel-cli make test
+$ npm --TEST_ONLY=babel-cli run test
 ```
 
-Use the `TEST_GREP` variable to run a subset of tests by name:
+Use the `TEST_GREP` parameter to run a subset of tests by name:
 
 ```sh
-$ TEST_GREP=transformation make test
+$ npm --TEST_GREP=transformation run test
 ```
 
 To test the code coverage, use:
 
 ```sh
-$ make test-cov
+$ npm run test-cov
 ```
 
 #### Writing tests
@@ -145,7 +145,7 @@ If you need to check for an error that is thrown you can add to the `options.jso
 
 ##### `babylon`
 
-For `babylon` specifically, you can easily generate an `expected.json` automatically by just providing the `actual.js` and running `make test-only` as you usually would.
+For `babylon` specifically, you can easily generate an `expected.json` automatically by just providing the `actual.js` and running `npm run test-only` as you usually would.
 
 ```
 // Example
