@@ -20,11 +20,9 @@ function getTestFiles() {
 }
 
 function runTests() {
-  if(!!testGrep) mocha.grep(testGrep);
+  if(testGrep) mocha.grep(testGrep);
   mocha.ui("tdd").reporter("dot").timeout(10000).run((failures) => {
-    process.on("exit", function() {
       process.exit(failures);
-    });
   });
 }
 
