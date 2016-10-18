@@ -1,5 +1,5 @@
 git:
-  depth: 1
+  depth: 10
 sudo: false
 language: node_js
 cache:
@@ -10,7 +10,7 @@ node_js:
 - '5'
 - '4'
 - '0.12'
-script: 
+script:
   - 'if [ -n "${LINT-}" ]; then npm run lint ; fi'
   - 'if [ -z "${LINT-}" ]; then npm run test-ci ; fi'
 
