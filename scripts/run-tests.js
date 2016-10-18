@@ -14,14 +14,14 @@ const testSearch = `packages/${testPackage || "*"}/test/*.js`
 const mocha = new Mocha();
 
 function getTestFiles() {
-  glob.sync(testSearch).forEach(function(file) {
+  glob.sync(testSearch).forEach((file) => {
     mocha.addFile(file);
   });
 }
 
 function runTests() {
-  testGrep && mocha.grep(testGrep);
-  mocha.ui("tdd").reporter("dot").timeout(10000).run(function(failures) {
+  if(!!testGrep) mocha.grep(testGrep);
+  mocha.ui("tdd").reporter("dot").timeout(10000).run((failures) => {
     process.on("exit", function() {
       process.exit(failures);
     });
