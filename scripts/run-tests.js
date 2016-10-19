@@ -3,25 +3,25 @@
 
 require("./babel-register.js");
 
-const path = require("path");
-const Mocha = require("mocha");
-const glob = require("glob");
+var path = require("path");
+var Mocha = require("mocha");
+var glob = require("glob");
 
-const testGrep = process.env.npm_config_TEST_GREP;
-const testPackage = process.env.npm_config_TEST_ONLY;
-const testSearch = `packages/${testPackage || "*"}/test/*.js`
+var testGrep = process.env.npm_config_TEST_GREP;
+var testPackage = process.env.npm_config_TEST_ONLY;
+var testSearch = "packages/" + (testPackage || "*") + "/test/*.js"
 
-const mocha = new Mocha();
+var mocha = new Mocha();
 
 function getTestFiles() {
-  glob.sync(testSearch).forEach((file) => {
+  glob.sync(testSearch).forEach(function(file) {
     mocha.addFile(file);
   });
 }
 
 function runTests() {
   if(testGrep) mocha.grep(testGrep);
-  mocha.ui("tdd").reporter("dot").timeout(10000).run((failures) => {
+  mocha.ui("tdd").reporter("dot").timeout(10000).run(function(failures) {
       process.exit(failures);
   });
 }
