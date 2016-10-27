@@ -4,6 +4,7 @@
 require("babel-core");
 
 let fs         = require("fs");
+let child      = require("child_process");
 let commander  = require("commander");
 let kebabCase  = require("lodash/kebabCase");
 let options    = require("babel-core").options;
@@ -45,6 +46,7 @@ commander.option("-o, --out-file [out]", "Compile all input files into a single 
 commander.option("-d, --out-dir [out]", "Compile an input directory of modules into an output directory");
 commander.option("-D, --copy-files", "When compiling a directory copy over non-compilable files");
 commander.option("-q, --quiet", "Don't log anything");
+commander.option("-S, --settings", "Show configuration settings");
 
 let pkg = require("../../package.json");
 commander.version(pkg.version + " (babel-core " + require("babel-core").version + ")");
@@ -124,6 +126,53 @@ if (commander.outDir) {
   fn = require("./dir");
 } else {
   fn = require("./file");
+}
+
+if(commander.settings) {
+  let fileOptionsManager = require("babel-core").File,
+      allOptions = [];
+  let generalOptions = new fileOptionsManager( { filename: "unknown" } ).opts;
+
+  allOptions.push(generalOptions);
+
+  each(filenames, function (file) {
+    let fileOptions = new fileOptionsManager( { filename: file } ).opts,
+        thisFileOptions = {};
+
+    each(Object.keys(fileOptions), function (key) {
+      if(!generalOptions.hasOwnProperty(key) || JSON.stringify(generalOptions[key]) != JSON.stringify(fileOptions[key])) {
+        thisFileOptions[key] = fileOptions[key];
+      }
+    });
+    allOptions.push(thisFileOptions);
+  });
+
+  let printObject = function (filename, opts) {
+    console.log(`--- ${filename} options ---`);
+    each(Object.keys(opts), function (key) {
+      console.log(key, ": ", opts[key]);
+    });
+    console.log();
+  };
+
+  console.log(`\n========== SETTINGS ==========\n`);
+  process.stdout.write(`node version: `);
+  child.execSync("node -v", {stdio:[0, 1]});
+  process.stdout.write(`npm version: `);
+  child.execSync("npm -v", {stdio:[0, 1]});
+  process.stdout.write(`packages:\n`);
+  child.execSync("npm list", {stdio:[0, 1]});
+
+  each(allOptions, function (fileOptions, index) {
+    if (index !== 0) {
+      printObject(fileOptions.filename, fileOptions);
+    } else {
+      let header = `General ${process.cwd()}`;
+      printObject(header, fileOptions);
+    }
+  });
+  console.log(`======= END OF SETTINGS ======\n`);
+  process.exit(0);
 }
 
 fn(commander, filenames, exports.opts);
