@@ -115,7 +115,7 @@ export function getSettings(filenames) {
   child.execSync("node -v", {stdio:[0, 1]});
   process.stdout.write(`npm version: `);
   child.execSync("npm -v", {stdio:[0, 1]});
-  process.stdout.write(`Babel packages:\n`);
+  console.log(`Babel packages:`);
 
   let packages = child.execSync("npm list").toString().split("\n");
   each(packages, function(p) {
