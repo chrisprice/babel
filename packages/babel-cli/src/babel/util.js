@@ -96,9 +96,8 @@ export function getSettings(filenames) {
         thisFileOptions = {};
 
     each(fileOptions, function (fileOption, key) {
-    console.log("fileoption: ", fileOption);
-      if(!generalOptions.hasOwnProperty(key) || JSON.stringify(generalOptions[key]) != JSON.stringify(fileOptions[key])) {
-        thisFileOptions[key] = fileOptions[key];
+      if (!generalOptions.hasOwnProperty(key) || JSON.stringify(generalOptions[key]) != JSON.stringify(fileOption)) {
+        thisFileOptions[key] = fileOption;
       }
     });
     allOptions.push(thisFileOptions);
@@ -106,8 +105,8 @@ export function getSettings(filenames) {
 
   let printObject = function (filename, opts) {
     console.log(`--- ${filename} options ---`);
-    each(Object.keys(opts), function (key) {
-      console.log(key, ": ", opts[key]);
+    each(opts, function (option, key) {
+      console.log(key, ": ", option);
     });
     console.log();
   };
@@ -120,7 +119,6 @@ export function getSettings(filenames) {
   child.execSync("npm list", {stdio:[0, 1]});
 
   each(allOptions, function (fileOptions, index) {
-    JSON.stringify(fileOptions);
     if (index !== 0) {
       printObject(fileOptions.filename, fileOptions);
     } else {
